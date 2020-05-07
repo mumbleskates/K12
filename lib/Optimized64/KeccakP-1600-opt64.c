@@ -24,11 +24,14 @@ Please refer to the XKCP for more details.
 #include "brg_endian.h"
 #include "KeccakP-1600-SnP.h"
 
+#ifndef KeccapK1600_disableParallelism
 extern int K12_enableAVX2;
 extern int K12_enableAVX512;
+#endif  // !KeccapK1600_disableParallelism
 
 const char * KeccakP1600_GetImplementation()
 {
+#ifndef KeccapK1600_disableParallelism
     if (K12_enableAVX512)
         return "AVX-512 implementation";
     else
@@ -37,11 +40,13 @@ const char * KeccakP1600_GetImplementation()
         return "AVX2 implementation";
     else
 #endif
+#endif  // !KeccapK1600_disableParallelism
         return "generic 64-bit implementation";
 }
 
 void KeccakP1600_Initialize(void *state)
 {
+#ifndef KeccapK1600_disableParallelism
     if (K12_enableAVX512)
         KeccakP1600_AVX512_Initialize(state);
     else
@@ -50,11 +55,13 @@ void KeccakP1600_Initialize(void *state)
         KeccakP1600_AVX2_Initialize(state);
     else
 #endif
+#endif  // !KeccapK1600_disableParallelism
         KeccakP1600_opt64_Initialize(state);
 }
 
 void KeccakP1600_AddByte(void *state, unsigned char data, unsigned int offset)
 {
+#ifndef KeccapK1600_disableParallelism
     if (K12_enableAVX512)
         ((unsigned char*)(state))[offset] ^= data;
     else
@@ -63,11 +70,13 @@ void KeccakP1600_AddByte(void *state, unsigned char data, unsigned int offset)
         KeccakP1600_AVX2_AddByte(state, data, offset);
     else
 #endif
+#endif  // !KeccapK1600_disableParallelism
         KeccakP1600_opt64_AddByte(state, data, offset);
 }
 
 void KeccakP1600_AddBytes(void *state, const unsigned char *data, unsigned int offset, unsigned int length)
 {
+#ifndef KeccapK1600_disableParallelism
     if (K12_enableAVX512)
         KeccakP1600_AVX512_AddBytes(state, data, offset, length);
     else
@@ -76,11 +85,13 @@ void KeccakP1600_AddBytes(void *state, const unsigned char *data, unsigned int o
         KeccakP1600_AVX2_AddBytes(state, data, offset, length);
     else
 #endif
+#endif  // !KeccapK1600_disableParallelism
         KeccakP1600_opt64_AddBytes(state, data, offset, length);
 }
 
 void KeccakP1600_Permute_12rounds(void *state)
 {
+#ifndef KeccapK1600_disableParallelism
     if (K12_enableAVX512)
         KeccakP1600_AVX512_Permute_12rounds(state);
     else
@@ -89,11 +100,13 @@ void KeccakP1600_Permute_12rounds(void *state)
         KeccakP1600_AVX2_Permute_12rounds(state);
     else
 #endif
+#endif  // !KeccapK1600_disableParallelism
         KeccakP1600_opt64_Permute_12rounds(state);
 }
 
 void KeccakP1600_ExtractBytes(const void *state, unsigned char *data, unsigned int offset, unsigned int length)
 {
+#ifndef KeccapK1600_disableParallelism
     if (K12_enableAVX512)
         KeccakP1600_AVX512_ExtractBytes(state, data, offset, length);
     else
@@ -102,11 +115,13 @@ void KeccakP1600_ExtractBytes(const void *state, unsigned char *data, unsigned i
         KeccakP1600_AVX2_ExtractBytes(state, data, offset, length);
     else
 #endif
+#endif  // !KeccapK1600_disableParallelism
         KeccakP1600_opt64_ExtractBytes(state, data, offset, length);
 }
 
 size_t KeccakP1600_12rounds_FastLoop_Absorb(void *state, unsigned int laneCount, const unsigned char *data, size_t dataByteLen)
 {
+#ifndef KeccapK1600_disableParallelism
     if (K12_enableAVX512)
         return KeccakP1600_AVX512_12rounds_FastLoop_Absorb(state, laneCount, data, dataByteLen);
     else
@@ -115,6 +130,7 @@ size_t KeccakP1600_12rounds_FastLoop_Absorb(void *state, unsigned int laneCount,
         return KeccakP1600_AVX2_12rounds_FastLoop_Absorb(state, laneCount, data, dataByteLen);
     else
 #endif
+#endif  // !KeccapK1600_disableParallelism
         return KeccakP1600_opt64_12rounds_FastLoop_Absorb(state, laneCount, data, dataByteLen);
 }
 
