@@ -35,7 +35,7 @@ void KeccakP1600_Permute_12rounds(void *state);
 void KeccakP1600_ExtractBytes(const void *state, unsigned char *data, unsigned int offset, unsigned int length);
 size_t KeccakP1600_12rounds_FastLoop_Absorb(void *state, unsigned int laneCount, const unsigned char *data, size_t dataByteLen);
 
-#ifndef KeccapK1600_disableParallelism
+#ifndef KeccakP1600_disableParallelism
 void KeccakP1600_AVX512_Initialize(void *state);
 void KeccakP1600_AVX512_AddByte(void *state, unsigned char data, unsigned int offset);
 void KeccakP1600_AVX512_AddBytes(void *state, const unsigned char *data, unsigned int offset, unsigned int length);
@@ -49,7 +49,7 @@ void KeccakP1600_AVX2_AddBytes(void *state, const unsigned char *data, unsigned 
 void KeccakP1600_AVX2_Permute_12rounds(void *state);
 void KeccakP1600_AVX2_ExtractBytes(const void *state, unsigned char *data, unsigned int offset, unsigned int length);
 size_t KeccakP1600_AVX2_12rounds_FastLoop_Absorb(void *state, unsigned int laneCount, const unsigned char *data, size_t dataByteLen);
-#endif  // !KeccapK1600_disableParallelism
+#endif  // !KeccakP1600_disableParallelism
 
 void KeccakP1600_opt64_Initialize(void *state);
 void KeccakP1600_opt64_AddByte(void *state, unsigned char data, unsigned int offset);
